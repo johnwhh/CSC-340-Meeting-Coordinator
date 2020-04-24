@@ -99,7 +99,7 @@ namespace MeetingCoordinator
             if (isMonthly)
             {
                 newMeetingView.ToggleDate(true);
-                newMeetingView.ToggleEditButton(false);
+                newMeetingView.ToggleButtonsVisibility(false);
             }
 
             MeetingsPanel.Controls.Add(newMeetingView);
@@ -114,14 +114,14 @@ namespace MeetingCoordinator
                 MonthlyMeetingsButton.Text = "View Daily Meetings";
                 ShowMonthlyMeetings();
                 AddMeetingButton.Enabled = false;
-                ToggleEditButtons(false);
+                ToggleMeetingButtons(false);
             }
             else
             {
                 MonthlyMeetingsButton.Text = "View Monthly Meetings";
                 ShowDailyMeetings();
                 AddMeetingButton.Enabled = true;
-                ToggleEditButtons(true);
+                ToggleMeetingButtons(true);
             }
 
         }
@@ -141,13 +141,13 @@ namespace MeetingCoordinator
             }
         }
 
-        public void ToggleEditButtons(bool state)
+        public void ToggleMeetingButtons(bool state)
         {
             foreach (Control control in MeetingsPanel.Controls)
             {
                 MeetingView meetingView = control as MeetingView;
 
-                meetingView.ToggleEditButton(state);
+                meetingView.ToggleButtonsVisibility(state);
             }
         }
 

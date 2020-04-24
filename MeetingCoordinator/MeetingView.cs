@@ -16,7 +16,7 @@ namespace MeetingCoordinator
 
             if (parentForm.GetCurrentUser().rank != User.Rank.Manager)
             {
-                HideButtons();
+                ToggleButtonsVisibility(false);
             }
 
             UpdateMeetingView(meeting);
@@ -45,10 +45,10 @@ namespace MeetingCoordinator
             DeleteButton.Enabled = state;
         }
 
-        private void HideButtons()
+        public void ToggleButtonsVisibility(bool state)
         {
-            EditButton.Visible = false;
-            DeleteButton.Visible = false;
+            EditButton.Visible = state;
+            DeleteButton.Visible = state;
         }
 
         public void ToggleDate(bool state)
