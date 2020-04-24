@@ -6,7 +6,7 @@ namespace MeetingCoordinator
 {
     public class LoginManager
     {
-        private const string connStr = "Put EKU Database details here.";
+        private const string connStr = "";
         public User GetUser(string username)
         {
             User user = null;

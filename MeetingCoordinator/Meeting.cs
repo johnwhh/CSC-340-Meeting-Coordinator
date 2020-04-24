@@ -1,4 +1,5 @@
-﻿namespace MeetingCoordinator
+﻿using System;
+namespace MeetingCoordinator
 {
     public class Meeting
     {
@@ -17,6 +18,16 @@
             this.endTime = endTime;
             this.attendees = attendees;
             this.description = description;
+        }
+
+        public bool Equals(Meeting otherMeeting)
+        {
+            return title == otherMeeting.title &&
+                    location == otherMeeting.location &&
+                    startTime == otherMeeting.startTime &&
+                    endTime == otherMeeting.endTime &&
+                    attendees == otherMeeting.attendees &&
+                    description == otherMeeting.description;
         }
     }
 }

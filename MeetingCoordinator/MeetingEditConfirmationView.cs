@@ -45,37 +45,38 @@ namespace MeetingCoordinator
 
         public void PopulateAttendeesListBox()
         {
-            string[] fullNames = meetingManager.GetAvailableEmployeeNames(currentMeeting, parentForm.GetSelectedDate());
+            string[] fullNames = meetingManager.GetAvailableEmployeeNames(currentMeeting, parentForm.GetSelectedDate(), oldMeeting);
 
             AttendeesListBox.Items.Clear();
             foreach (string fullName in fullNames)
             {
-                AttendeesListBox.Items.Add(fullName, false);
+                if (oldMeeting.attendees.Contains(fullName))
+                {
+                    AttendeesListBox.Items.Add(fullName, true);
+                    isAttendeeSelected = true;
+                }
+                else
+                    AttendeesListBox.Items.Add(fullName, false);
             }
 
-            string[] addedFullNames = currentMeeting.attendees.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (string fullName in addedFullNames)
-            {
-                AttendeesListBox.Items.Add(fullName, true);
-            }
-
-            isAttendeeSelected = true;
             AttendeesListBox.CheckOnClick = true;
         }
 
         public void PopulateRoomsListBox()
         {
-            string[] fullNames = meetingManager.GetAvailableRoomNames(currentMeeting, parentForm.GetSelectedDate());
+            // Get people who are available among all meetings - oldMeeting
+            string[] fullNames = meetingManager.GetAvailableRoomNames(currentMeeting, parentForm.GetSelectedDate(), oldMeeting);
 
             LocationListBox.Items.Clear();
             foreach (string fullName in fullNames)
             {
-                LocationListBox.Items.Add(fullName, false);
+                if (fullName == oldMeeting.location)
+                {
+                    LocationListBox.Items.Add(fullName, true);
+                    isLocationSelected = true;
+                } else
+                    LocationListBox.Items.Add(fullName, false);
             }
-
-            LocationListBox.Items.Add(currentMeeting.location, true);
-            isLocationSelected = true;
 
             LocationListBox.CheckOnClick = true;
         }

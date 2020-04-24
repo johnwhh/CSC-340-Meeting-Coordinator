@@ -9,7 +9,7 @@ namespace MeetingCoordinator
 {
     class MeetingManager
     {
-        private const string connStr = "Put EKU Database details here.";
+        private const string connStr = "";
         public void InsertMeeting(Meeting newMeeting, string date, MainForm parentForm)
         {
             MySqlConnection conn = new MySqlConnection(connStr);
@@ -257,38 +257,41 @@ namespace MeetingCoordinator
             return meetings.ToArray();
         }
 
-        public string[] GetAvailableEmployeeNames(Meeting meeting, string date)
+        public string[] GetAvailableEmployeeNames(Meeting meeting, string date, Meeting oldMeeting=null)
         {
             User[] allUsers = GetAllUsers().ToArray();
             List<string> fullNames = new List<string>();
-
-            foreach(User user in allUsers)
-            {
-                if (IsUserAvailable(user, meeting, date))
-                    fullNames.Add(user.fullName);
-            }
-
-            return fullNames.ToArray();
-        }
-
-        public string[] GetAvailableRoomNames(Meeting meeting, string date)
-        {
-            User[] allUsers = GetAllRooms().ToArray();
-            List<string> fullNames = new List<string>();
+            Dictionary<string, List<string>> busyHours = GetBusyHours(date, oldMeeting);
 
             foreach (User user in allUsers)
             {
-                if (IsUserAvailable(user, meeting, date, true))
+                if (IsUserAvailable(user, meeting, busyHours))
                     fullNames.Add(user.fullName);
             }
 
             return fullNames.ToArray();
         }
 
-        private bool IsUserAvailable(User user, Meeting meeting, string date, bool isLocation = false) {
-            string[] busyHours = GetBusyHours(user.fullName, date, isLocation);
+        public string[] GetAvailableRoomNames(Meeting meeting, string date, Meeting oldMeeting=null)
+        {
+            User[] allUsers = GetAllRooms().ToArray();
+            List<string> fullNames = new List<string>();
+            Dictionary<string, List<string>> busyHours = GetBusyHours(date, oldMeeting);
 
-            foreach (string busyHour in busyHours)
+            foreach (User user in allUsers)
+            {
+                if (IsUserAvailable(user, meeting, busyHours))
+                    fullNames.Add(user.fullName);
+            }
+
+            return fullNames.ToArray();
+        }
+
+        private bool IsUserAvailable(User user, Meeting meeting, Dictionary<string, List<string>> busyHours) {
+            if (busyHours.ContainsKey(user.fullName) == false)
+                return true;
+
+            foreach (string busyHour in busyHours[user.fullName])
             {
                 string[] times = busyHour.Split('-');
                 float startTime = TimeToFloat(times[0]);
@@ -303,28 +306,53 @@ namespace MeetingCoordinator
             return true;
         }
 
-        public string[] GetBusyHours(string fullName, string date, bool isLocation=false)
+        public Dictionary<string, List<string>> GetBusyHours(string date, Meeting exceptMeeting=null)
         {
-            List<string> busyHours = new List<string>();
-            Meeting[] meetings = GetDailyMeetings(date).ToArray();
+            Dictionary<string, List<string>> busyHours = new Dictionary<string, List<string>>();
+            Meeting[] meetings = GetDailyMeetings(date);
 
-            foreach(Meeting meeting in meetings)
+            List<Meeting> meetingsFiltered = new List<Meeting>();
+            meetingsFiltered.AddRange(meetings);
+
+            if(exceptMeeting != null)
+                meetingsFiltered.Remove(exceptMeeting);
+            
+            foreach (Meeting meeting in meetingsFiltered)
             {
-                if(isLocation)
+                if (meeting.Equals(exceptMeeting))
+                    continue;
+
+                string[] fullNames = meeting.attendees.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+                string timeStamp = meeting.startTime + "-" + meeting.endTime;
+                foreach (string fullName in fullNames)
                 {
-                    if (meeting.location == fullName)
+                    Console.WriteLine(fullName + " is attending " + meeting.title);
+
+                    if(!busyHours.ContainsKey(fullName))
                     {
-                        busyHours.Add(meeting.startTime + "-" + meeting.endTime);
-                    }
-                } else {
-                    if (meeting.attendees.Contains(fullName))
+                        List<string> times = new List<string>();
+                        times.Add(timeStamp);
+                        busyHours.Add(fullName, times);
+                    } else
                     {
-                        busyHours.Add(meeting.startTime + "-" + meeting.endTime);
+                        busyHours[fullName].Add(timeStamp);
                     }
+                        
+                }
+
+                if (!busyHours.ContainsKey(meeting.location))
+                {
+                    List<string> times = new List<string>();
+                    times.Add(timeStamp);
+                    busyHours.Add(meeting.location, times);
+                }
+                else
+                {
+                    busyHours[meeting.location].Add(timeStamp);
                 }
             }
 
-            return busyHours.ToArray();
+            return busyHours;
         }
 
         //public string GetMeetingConflictStatus(Meeting meeting, string date)
