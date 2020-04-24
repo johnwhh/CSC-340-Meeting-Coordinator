@@ -1,7 +1,5 @@
-USE csc340_db;
-
 CREATE TABLE ajjMeetings (
-	meetingID INT AUTO_INCREMENT NOT NULcsc340_dbL,
+	meetingID INT AUTO_INCREMENT NOT NULL,
 	date DATE NOT NULL,
 	title VARCHAR(50) NOT NULL,
 	location VARCHAR(50) NOT NULL,
