@@ -9,8 +9,9 @@ namespace MeetingCoordinator
         public string endTime;
         public string attendees;
         public string description;
+        public string date;
 
-        public Meeting(string title, string location, string startTime, string endTime, string attendees, string description)
+        public Meeting(string title, string location, string startTime, string endTime, string attendees, string description, string date)
         {
             this.title = title;
             this.location = location;
@@ -18,6 +19,7 @@ namespace MeetingCoordinator
             this.endTime = endTime;
             this.attendees = attendees;
             this.description = description;
+            this.date = date;
         }
 
         public bool Equals(Meeting otherMeeting)
@@ -27,7 +29,8 @@ namespace MeetingCoordinator
                     startTime == otherMeeting.startTime &&
                     endTime == otherMeeting.endTime &&
                     attendees == otherMeeting.attendees &&
-                    description == otherMeeting.description;
+                    description == otherMeeting.description &&
+                    date == otherMeeting.date;
         }
     }
 }

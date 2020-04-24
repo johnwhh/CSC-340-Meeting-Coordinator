@@ -33,7 +33,7 @@ namespace MeetingCoordinator
             string attendees = GetAttendees();
             string description = currentMeeting.description;
 
-            Meeting newMeeting = new Meeting(title, location, startTime, endTime, attendees, description);
+            Meeting newMeeting = new Meeting(title, location, startTime, endTime, attendees, description, currentMeeting.date);
 
             MeetingManager meetingManager = new MeetingManager();
             meetingManager.UpdateMeeting(oldMeeting, newMeeting, parentForm.GetSelectedDate(), parentForm);

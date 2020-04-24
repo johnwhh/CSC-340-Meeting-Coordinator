@@ -76,7 +76,7 @@ namespace MeetingCoordinator
 
             foreach (Meeting meeting in meetings)
             {
-                AddMeeting(meeting);
+                AddMeeting(meeting, true);
             }
         }
 
@@ -92,9 +92,16 @@ namespace MeetingCoordinator
             AddCenteredControl(meetingCreationView);
         }
 
-        public void AddMeeting(Meeting meeting)
+        public void AddMeeting(Meeting meeting, bool isMonthly=false)
         {
             MeetingView newMeetingView = new MeetingView(this, meeting);
+
+            if (isMonthly)
+            {
+                newMeetingView.ToggleDate(true);
+                newMeetingView.ToggleEditButton(false);
+            }
+
             MeetingsPanel.Controls.Add(newMeetingView);
         }
 
@@ -106,12 +113,14 @@ namespace MeetingCoordinator
             {
                 MonthlyMeetingsButton.Text = "View Daily Meetings";
                 ShowMonthlyMeetings();
+                AddMeetingButton.Enabled = false;
                 ToggleEditButtons(false);
             }
             else
             {
                 MonthlyMeetingsButton.Text = "View Monthly Meetings";
                 ShowDailyMeetings();
+                AddMeetingButton.Enabled = true;
                 ToggleEditButtons(true);
             }
 

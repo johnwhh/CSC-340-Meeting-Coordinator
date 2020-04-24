@@ -42,6 +42,7 @@
             this.EditButton = new System.Windows.Forms.Button();
             this.DeleteButton = new System.Windows.Forms.Button();
             this.NewAttendeesTextBox = new System.Windows.Forms.TextBox();
+            this.DateLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // NewDescriptionTextBox
@@ -165,11 +166,22 @@
             this.NewAttendeesTextBox.TabIndex = 34;
             this.NewAttendeesTextBox.Text = resources.GetString("NewAttendeesTextBox.Text");
             // 
+            // DateLabel
+            // 
+            this.DateLabel.Location = new System.Drawing.Point(5, 26);
+            this.DateLabel.Name = "DateLabel";
+            this.DateLabel.Size = new System.Drawing.Size(236, 13);
+            this.DateLabel.TabIndex = 35;
+            this.DateLabel.Text = "Date";
+            this.DateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.DateLabel.Visible = false;
+            // 
             // MeetingView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.Controls.Add(this.DateLabel);
             this.Controls.Add(this.NewAttendeesTextBox);
             this.Controls.Add(this.NewDescriptionTextBox);
             this.Controls.Add(this.DescriptionLabel);
@@ -205,5 +217,6 @@
         private System.Windows.Forms.Button EditButton;
         private System.Windows.Forms.Button DeleteButton;
         private System.Windows.Forms.TextBox NewAttendeesTextBox;
+        private System.Windows.Forms.Label DateLabel;
     }
 }

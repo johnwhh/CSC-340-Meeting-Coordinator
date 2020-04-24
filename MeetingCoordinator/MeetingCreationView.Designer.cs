@@ -75,6 +75,7 @@
             this.EndTimeTextBox.Size = new System.Drawing.Size(45, 20);
             this.EndTimeTextBox.TabIndex = 26;
             this.EndTimeTextBox.Text = "23:00";
+            this.EndTimeTextBox.TextChanged += new System.EventHandler(this.EndTimeTextBox_TextChanged);
             // 
             // StartTimeTextBox
             // 
@@ -83,6 +84,7 @@
             this.StartTimeTextBox.Size = new System.Drawing.Size(45, 20);
             this.StartTimeTextBox.TabIndex = 25;
             this.StartTimeTextBox.Text = "22:00";
+            this.StartTimeTextBox.TextChanged += new System.EventHandler(this.StartTimeTextBox_TextChanged);
             // 
             // TitleTextBox
             // 

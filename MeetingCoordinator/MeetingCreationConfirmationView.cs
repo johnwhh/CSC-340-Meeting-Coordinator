@@ -30,7 +30,7 @@ namespace MeetingCoordinator
             string attendees = GetAttendees();
             string description = currentMeeting.description;
 
-            Meeting newMeeting = new Meeting(title, location, startTime, endTime, attendees, description);
+            Meeting newMeeting = new Meeting(title, location, startTime, endTime, attendees, description, currentMeeting.date);
             meetingManager.InsertMeeting(newMeeting, parentForm.GetSelectedDate(), parentForm);
 
             parentForm.ToggleButtons(true);

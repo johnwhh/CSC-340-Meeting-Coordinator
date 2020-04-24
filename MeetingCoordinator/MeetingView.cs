@@ -30,6 +30,7 @@ namespace MeetingCoordinator
             NewEndTimeLabel.Text = meeting.endTime;
             NewAttendeesTextBox.Text = meeting.attendees;
             NewDescriptionTextBox.Text = meeting.description;
+            DateLabel.Text = meeting.date.Replace(" 12:00:00 AM", "");
 
             currentMeeting = meeting;
         }
@@ -48,6 +49,11 @@ namespace MeetingCoordinator
         {
             EditButton.Visible = false;
             DeleteButton.Visible = false;
+        }
+
+        public void ToggleDate(bool state)
+        {
+            DateLabel.Visible = state;
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)

@@ -182,11 +182,11 @@ namespace MeetingCoordinator
             {
                 string title = row["title"].ToString();
                 string location = row["location"].ToString();
-                string startTime = row["startTime"].ToString(); ;
-                string endTime = row["endTime"].ToString(); ;
-                string attendees = row["attendees"].ToString(); ;
-                string description = row["description"].ToString(); ;
-                Meeting meeting = new Meeting(title, location, startTime, endTime, attendees, description);
+                string startTime = row["startTime"].ToString();
+                string endTime = row["endTime"].ToString();
+                string attendees = row["attendees"].ToString();
+                string description = row["description"].ToString();
+                Meeting meeting = new Meeting(title, location, startTime, endTime, attendees, description, date);
                 meetings.Add(meeting);
             }
             table.Dispose();
@@ -233,11 +233,13 @@ namespace MeetingCoordinator
             {
                 string title = row["title"].ToString();
                 string location = row["location"].ToString();
-                string startTime = row["startTime"].ToString(); ;
-                string endTime = row["endTime"].ToString(); ;
-                string attendees = row["attendees"].ToString(); ;
-                string description = row["description"].ToString(); ;
-                Meeting meeting = new Meeting(title, location, startTime, endTime, attendees, description);
+                string startTime = row["startTime"].ToString();
+                string endTime = row["endTime"].ToString();
+                string attendees = row["attendees"].ToString();
+                string description = row["description"].ToString();
+                string date = row["date"].ToString();
+
+                Meeting meeting = new Meeting(title, location, startTime, endTime, attendees, description, date);
                 meetings.Add(meeting);
             }
             table.Dispose();
