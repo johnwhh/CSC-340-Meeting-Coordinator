@@ -310,24 +310,16 @@ namespace MeetingCoordinator
         {
             Dictionary<string, List<string>> busyHours = new Dictionary<string, List<string>>();
             Meeting[] meetings = GetDailyMeetings(date);
-
-            List<Meeting> meetingsFiltered = new List<Meeting>();
-            meetingsFiltered.AddRange(meetings);
-
-            if(exceptMeeting != null)
-                meetingsFiltered.Remove(exceptMeeting);
             
-            foreach (Meeting meeting in meetingsFiltered)
+            foreach (Meeting meeting in meetings)
             {
-                if (meeting.Equals(exceptMeeting))
+                if (exceptMeeting != null && meeting.Equals(exceptMeeting))
                     continue;
 
                 string[] fullNames = meeting.attendees.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
                 string timeStamp = meeting.startTime + "-" + meeting.endTime;
                 foreach (string fullName in fullNames)
                 {
-                    Console.WriteLine(fullName + " is attending " + meeting.title);
-
                     if(!busyHours.ContainsKey(fullName))
                     {
                         List<string> times = new List<string>();
@@ -354,43 +346,5 @@ namespace MeetingCoordinator
 
             return busyHours;
         }
-
-        //public string GetMeetingConflictStatus(Meeting meeting, string date)
-        //{
-        //    string[] fullNames = meeting.attendees.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
-
-        //    foreach(string fullName in fullNames)
-        //    {
-        //        string[] busyHours = GetBusyHours(fullName, date).ToArray();
-
-        //        foreach (string busyHour in busyHours)
-        //        {
-        //            string[] times = busyHour.Split('-');
-        //            float startTime = TimeToFloat(times[0]);
-        //            float endTime = TimeToFloat(times[1]);
-
-        //            bool startConflictExists = TimeToFloat(meeting.endTime) >= startTime && TimeToFloat(meeting.endTime) <= endTime;
-        //            bool endConflictExists = TimeToFloat(meeting.startTime) <= endTime && TimeToFloat(meeting.startTime) >= startTime;
-        //            if (startConflictExists || endConflictExists)
-        //                return fullName + " has a conflicting meeting.";
-        //        }
-        //    }
-
-        //    string[] busyRoomHours = GetBusyHours(meeting.location, date, true).ToArray();
-
-        //    foreach (string busyHour in busyRoomHours)
-        //    {
-        //        string[] times = busyHour.Split('-');
-        //        float startTime = TimeToFloat(times[0]);
-        //        float endTime = TimeToFloat(times[1]);
-
-        //        bool startConflictExists = TimeToFloat(meeting.endTime) >= startTime && TimeToFloat(meeting.endTime) <= endTime;
-        //        bool endConflictExists = TimeToFloat(meeting.startTime) <= endTime && TimeToFloat(meeting.startTime) >= startTime;
-        //        if (startConflictExists || endConflictExists)
-        //            return "There is already a meeting at " + meeting.location;
-        //    }
-
-        //    return null;
-        //}
     }
 }
